@@ -1,0 +1,7 @@
+.vscode/
+**.sqlite
+**.dat
+**.db
+
+test-lib/
+lib/

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="S:/Cursos/keepcoding/Practica Solucion de problemas Java/data/catalogo.sqlite" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="2472"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,8:mainartistas"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="create_database.sql">CREATE TABLE &quot;directores&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;nombre&quot;	TEXT,
+	&quot;url_foto&quot;	TEXT,
+	&quot;url_web&quot;	TEXT,
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
+);
+CREATE TABLE &quot;generos&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;descripcion&quot;	TEXT,
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
+);
+CREATE TABLE &quot;peliculas&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;titulo&quot;	TEXT,
+	&quot;id_director&quot;	INTEGER,
+	&quot;año&quot;	INTEGER,
+	&quot;url_caratula&quot;	TEXT,
+	&quot;id_genero&quot;	INTEGER,
+	&quot;es_animacion&quot;	INTEGER,
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT),
+	FOREIGN KEY(&quot;id_genero&quot;) REFERENCES &quot;generos&quot;(&quot;id&quot;),
+	FOREIGN KEY(&quot;id_director&quot;) REFERENCES &quot;directores&quot;(&quot;id&quot;)
+);
+CREATE TABLE &quot;artistas&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;nombre&quot;	TEXT,
+	&quot;url_foto&quot;	TEXT,
+	&quot;url_web&quot;	TEXT,
+	PRIMARY KEY(&quot;id&quot;)
+);
+CREATE TABLE &quot;repartos&quot; (
+	&quot;id_pelicula&quot;	INTEGER,
+	&quot;id_artista&quot;	INTEGER,
+	FOREIGN KEY(&quot;id_pelicula&quot;) REFERENCES &quot;peliculas&quot;(&quot;id&quot;),
+	FOREIGN KEY(&quot;id_artista&quot;) REFERENCES &quot;artistas&quot;(&quot;id&quot;),
+	PRIMARY KEY(&quot;id_pelicula&quot;,&quot;id_artista&quot;)
+)
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
