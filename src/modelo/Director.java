@@ -4,13 +4,14 @@ public class Director {
     private String nombre;
     private String url_foto;
     private String url_web;
-    private Integer id;
+    private int id;
 
-    public Director(String nombre, String url_foto, String url_web){
+    public Director(String nombre, String url_foto, String url_web, int id){
         this.nombre = nombre;
         this.url_foto = url_foto;
         this.url_web = url_web;
-    }
+        this.id = id;
+    }   
 
     public String getNombre() {
         return nombre;

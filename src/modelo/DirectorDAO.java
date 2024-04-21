@@ -13,8 +13,9 @@ public class DirectorDAO {
     public DirectorDAO(String path){
         this.path = path;
     }
+
     public ArrayList<Director> dameTodos() throws SQLException {
-        String sql = "SELECT nombre, url_foto, url_web FROM directores";
+        String sql = "SELECT * FROM directores ORDER BY nombre";
 
         Connection conn = new Utilidades().getConnection(path);
         Statement sentenciaSQL = conn.createStatement();
@@ -23,13 +24,17 @@ public class DirectorDAO {
         ArrayList<Director> listaDirectores = new ArrayList<>();
 
         while (resultado.next()) {
-            Director nuevo = new Director(resultado.getString("nombre"), resultado.getString("url_foto"), resultado.getString("url_web"));
+            Director nuevo = new Director(resultado.getString("nombre"), resultado.getString("url_foto"), resultado.getString("url_web"), resultado.getInt("id"));
             
             listaDirectores.add(nuevo);
         }
+        sentenciaSQL.close();
+        conn.close();
         return listaDirectores;
+        
     }
-    public Director buscaPorId(Integer id){
+
+    public Director buscaPorId(Integer id) throws SQLException{
         String sql = "SELECT * FROM directores where id = ?";
         
         Connection conn = new Utilidades().getConnection(path);
@@ -37,19 +42,21 @@ public class DirectorDAO {
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
-            statement.executeQuery();
             ResultSet result = statement.executeQuery();
             if (result.next()){
-                Director dir = new Director(result.getString("nombre"), result.getString("url_foto"), result.getString("url_web"));
+                Director dir = new Director(result.getString("nombre"), result.getString("url_foto"), result.getString("url_web"), result.getInt("id"));
+                statement.close();
                 return dir;
             }
         } catch (SQLException err) {
             System.out.println("Se ha producido un error en la consulta de usuario por ID");
             err.printStackTrace();
         }
+        conn.close();
         return null;
     }
-    public Director buscaPorNombre(String nombre) {
+
+    public Director buscaPorNombre(String nombre) throws SQLException{
         String sql = "SELECT * FROM directores where nombre = ?";
         
         Connection conn = new Utilidades().getConnection(path);
@@ -60,45 +67,49 @@ public class DirectorDAO {
             statement.executeQuery();
             ResultSet result = statement.executeQuery();
             if (result.next()){
-                Director dir = new Director(result.getString("nombre"), result.getString("url_foto"), result.getString("url_web"));
+                Director dir = new Director(result.getString("nombre"), result.getString("url_foto"), result.getString("url_web"), result.getInt("id"));
                 return dir;
             }
         } catch (SQLException err) {
             System.out.println("Se ha producido un error en la consulta de usuario por nombre");
             err.printStackTrace();
         }
+        conn.close();
         return null;
     }
-    public void borra(Integer id){
+
+    public void borra(Integer id) throws SQLException{
         String sql = "DELETE from directores where id = ?";
         Connection conn = new Utilidades().getConnection(path);
         try {
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setInt(1, id);
         statement.executeUpdate();
+        conn.close();
         } catch (SQLException err) {
             System.out.println("No se ha podido borrar correctamente");
             err.printStackTrace();
         }
+        conn.close();
     }
-    public void modifica(Director director, Integer id) {
+
+    public void modifica(Director director) throws SQLException {
         String sql = "UPDATE directores SET nombre = ?, url_foto = ?, url_web = ? WHERE id = ?";
         Connection conn = new Utilidades().getConnection(path);
-            try{ 
+        System.out.println(director.getNombre());
+        try{ 
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, id);
-            statement.executeQuery();
-            ResultSet result = statement.executeQuery();
-            if (result.next()){
-                statement.setString(1, director.getNombre());
-            statement.setString(1, director.getUrl_foto());
-            statement.setString(1, director.getUrl_web());  
+            statement.setInt(4, director.getId());
+            statement.setString(1, director.getNombre());
+            statement.setString(2, director.getUrl_foto());
+            statement.setString(3, director.getUrl_web());  
             statement.executeUpdate();
-            }
-            } catch (SQLException err) {
-                System.out.println("No se ha podido modificar");
-                err.printStackTrace();
-            }
-            
+            statement.close();
+        } catch (SQLException err) {
+            System.out.println("No se ha podido modificar");
+            err.printStackTrace();
+        }
+        conn.close();
+          
     }
 }

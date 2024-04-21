@@ -55,4 +55,6 @@ INSERT INTO generos (id, descripcion) VALUES (11, "Documental");
 INSERT INTO generos (id, descripcion) VALUES (12, "Biografico");
 INSERT INTO generos (id, descripcion) VALUES (13, "Romance");
 
-
+--Ingreso 2 peliculas para el test
+INSERT INTO peliculas (id, titulo, id_director, año, url_caratula, id_genero, es_animacion) VALUES (1, "Kill Bill", 1, 2005, "www.kb.com", 1, 1);
+INSERT INTO peliculas (id, titulo, id_director, año, url_caratula, id_genero, es_animacion) VALUES (2, "El Gran Dictador", 2, 1940, "www.gd.com", 3, 2);
